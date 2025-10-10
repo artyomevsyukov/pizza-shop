@@ -8,6 +8,21 @@
   font-size: 16px;
   border: none;
   color: var(--white-color);
+  border-radius: 29px;
+  font-style: normal;
+}
+
+.small {
+  font-size: 16px;
+  font-weight: 400;
+  padding: 10px 25px;
+}
+
+.big {
+  font-size: 15px;
+  font-weight: 600;
+  padding: 20px 60px;
+  text-transform: uppercase;
 }
 
 .accent {

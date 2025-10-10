@@ -1,11 +1,19 @@
 import style from "./Button.module.css";
 import type { ButtonProps } from "./Button.props";
-import cn from "classnames";
+import CN from "classnames";
 
-function Button({ children, className, ...props }: ButtonProps) {
+function Button({
+  appearance = "small",
+  children,
+  className,
+  ...props
+}: ButtonProps) {
   return (
     <button
-      className={cn(style["button"], style["accent"], className)}
+      className={CN(style["button"], style["accent"], className, {
+        [style["small"]]: appearance === "small",
+        [style["big"]]: appearance === "big"
+      })}
       {...props}
     >
       {children}
