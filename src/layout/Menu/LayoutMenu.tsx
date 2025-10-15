@@ -46,7 +46,7 @@ export function LayoutMenu() {
           <img src={exitIcon} alt="Выход" /> Выход
         </Button>
       </div>
-      <div>
+      <div className={styles["content"]}>
         <Outlet />
       </div>
     </div>

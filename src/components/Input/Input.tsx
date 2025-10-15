@@ -11,7 +11,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
     <input
       {...props}
       ref={ref}
-      className={CN(styles["input"], className, styles["input"], {
+      className={CN(styles["input"], className, {
         [styles["invalid"]]: !isValid
       })}
     />
