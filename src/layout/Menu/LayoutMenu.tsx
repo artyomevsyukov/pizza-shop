@@ -15,8 +15,8 @@ export function LayoutMenu() {
       <div className={styles["sidebar"]}>
         <div className={styles["user"]}>
           <img src={avatar} className={styles["avatar"]} alt="Avatar" />
-          <div className={styles["name"]}>Антон Ларичев</div>
-          <div className={styles["email"]}>alaricode@ya.ru</div>
+          <div className={styles["name"]}>Ваше имя</div>
+          <div className={styles["email"]}>name@ya.ru</div>
         </div>
         <div className={styles["menu"]}>
           <NavLink

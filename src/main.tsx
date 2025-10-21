@@ -10,6 +10,9 @@ import { Error } from "./pages/Error/Error";
 import { LayoutMenu } from "./layout/Menu/LayoutMenu.tsx";
 import axios from "axios";
 import { PREFIX } from "./helpers/API.ts";
+import { AuthLayout } from "./layout/Auth/AuthLayout.tsx";
+import Register from "./pages/Register/Register.tsx";
+import Login from "./pages/Login/Login.tsx";
 
 const Menu = lazy(() => import("./pages/Menu/Menu"));
 
@@ -41,18 +44,18 @@ const router = createBrowserRouter([
               .then(response => response.data)
           });
         }
-        // loader: ({ params }) => {
-        //   return defer({
-        //     data: new Promise(resolve => {
-        //       setTimeout(() => {
-        //         axios
-        //           .get(`${PREFIX}/products/${params.id}`)
-        //           .then(response => resolve(response.data));
-        //       }, 2000);
-        //     })
-        //   });
-        // }
       }
+    ]
+  },
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "login",
+        element: <Login />
+      },
+      { path: "register", element: <Register /> }
     ]
   },
   { path: "*", element: <Error /> }
