@@ -6,12 +6,15 @@ import { Link } from "react-router-dom";
 import type { ChangeEvent, FormEvent } from "react";
 import type { LoginFormData } from "./LoginProps";
 import Input from "../../components/Input/Input";
+import axios, { AxiosError } from "axios";
+import { PREFIX } from "../../helpers/API";
 
 function Login() {
   const [formData, setFormData] = useState<LoginFormData>({
-    login: "",
+    email: "",
     password: ""
   });
+  const [error, setError] = useState<string | null>();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -21,29 +24,47 @@ function Login() {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const submit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
     console.log("Данные для входа:", formData);
+    const { email, password } = formData;
+    await sentLogin(email, password);
+  };
+
+  const sentLogin = async (email: string, password: string) => {
+    try {
+      const { data } = await axios.post(`${PREFIX}/auth/login`, {
+        email,
+        password
+      });
+      console.log("Post: ", data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data.message);
+        setError(error.response?.data.message);
+      }
+    }
   };
 
   return (
     <div className={styles["login"]}>
       <Heading>Вход</Heading>
-
-      <form className={styles["form"]} onSubmit={handleSubmit}>
+      {error && <div className={styles["error"]}>{error}</div>}
+      <form className={styles["form"]} onSubmit={submit}>
         <div className={styles["field"]}>
-          <label htmlFor="login" className={styles.label}>
+          <label htmlFor="email" className={styles.label}>
             Ваш Email
           </label>
           <Input
-            id="login"
-            name="login"
+            id="email"
+            name="email"
             type="text"
             placeholder="Email"
             required
             // className={styles.input}
             onChange={handleChange}
-            value={formData.login}
+            value={formData.email}
           />
         </div>
         <div className={styles["field"]}>
