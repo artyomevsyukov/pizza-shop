@@ -2,12 +2,13 @@ import { useState } from "react";
 import Heading from "../../components/Heading/Heading";
 import styles from "./Login.module.css";
 import Button from "../../components/Button/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import type { ChangeEvent, FormEvent } from "react";
 import type { LoginFormData } from "./LoginProps";
 import Input from "../../components/Input/Input";
 import axios, { AxiosError } from "axios";
 import { PREFIX } from "../../helpers/API";
+import type { LoginResponse } from "../../interfaces/auth.interface";
 
 function Login() {
   const [formData, setFormData] = useState<LoginFormData>({
@@ -15,6 +16,7 @@ function Login() {
     password: ""
   });
   const [error, setError] = useState<string | null>();
+  const navigate = useNavigate();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -29,16 +31,18 @@ function Login() {
     setError(null);
     console.log("Данные для входа:", formData);
     const { email, password } = formData;
-    await sentLogin(email, password);
+    await sendLogin(email, password);
   };
 
-  const sentLogin = async (email: string, password: string) => {
+  const sendLogin = async (email: string, password: string) => {
     try {
-      const { data } = await axios.post(`${PREFIX}/auth/login`, {
+      const { data } = await axios.post<LoginResponse>(`${PREFIX}/auth/login`, {
         email,
         password
       });
       console.log("Post: ", data);
+      localStorage.setItem("jwt", data.access_token);
+      navigate("/");
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error.response?.data.message);
