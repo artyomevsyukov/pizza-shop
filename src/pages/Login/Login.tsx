@@ -9,6 +9,9 @@ import Input from "../../components/Input/Input";
 import axios, { AxiosError } from "axios";
 import { PREFIX } from "../../helpers/API";
 import type { LoginResponse } from "../../interfaces/auth.interface";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../store/store";
+import { userActions } from "../../store/user.slice";
 
 function Login() {
   const [formData, setFormData] = useState<LoginFormData>({
@@ -17,6 +20,8 @@ function Login() {
   });
   const [error, setError] = useState<string | null>();
   const navigate = useNavigate();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -41,6 +46,7 @@ function Login() {
         password
       });
       console.log("Post: ", data);
+      dispatch(userActions.addJwt(data.access_token));
       localStorage.setItem("jwt", data.access_token);
       navigate("/");
     } catch (error) {
