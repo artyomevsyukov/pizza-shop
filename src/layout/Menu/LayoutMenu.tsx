@@ -8,12 +8,15 @@ import avatar from "/avatar.png";
 import menuIcon from "/menu-icon.svg";
 import exitIcon from "/exit-icon.svg";
 import Button from "../../components/Button/Button";
+import { userActions } from "../../store/user.slice";
+import { useDispatch } from "react-redux";
 
 export function LayoutMenu() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const logOut = () => {
-    localStorage.removeItem("jwt");
+    dispatch(userActions.logOut());
     navigate("/auth/login");
   };
 
