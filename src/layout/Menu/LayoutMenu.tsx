@@ -8,25 +8,37 @@ import avatar from "/avatar.png";
 import menuIcon from "/menu-icon.svg";
 import exitIcon from "/exit-icon.svg";
 import Button from "../../components/Button/Button";
-import { userActions } from "../../store/user.slice";
-import { useDispatch } from "react-redux";
+import { getProfile, userActions } from "../../store/user.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import type { AppDispatch, RootState } from "../../store/store";
 
 export function LayoutMenu() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
+  const { profile, jwt } = useSelector((s: RootState) => s.user);
+
+  useEffect(() => {
+    if (jwt) {
+      dispatch(getProfile());
+    }
+  }, [dispatch, jwt]);
 
   const logOut = () => {
     dispatch(userActions.logOut());
     navigate("/auth/login");
   };
 
+  const displayName = profile?.name || "Ваше имя";
+  const displayEmail = profile?.email || "name@ya.ru";
+
   return (
     <div className={styles["layout"]}>
       <div className={styles["sidebar"]}>
         <div className={styles["user"]}>
           <img src={avatar} className={styles["avatar"]} alt="Avatar" />
-          <div className={styles["name"]}>Ваше имя</div>
-          <div className={styles["email"]}>name@ya.ru</div>
+          <div className={styles["name"]}>{displayName}</div>
+          <div className={styles["email"]}>{displayEmail}</div>
         </div>
         <div className={styles["menu"]}>
           <NavLink
