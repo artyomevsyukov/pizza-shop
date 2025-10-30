@@ -17,6 +17,7 @@ export function LayoutMenu() {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { profile, jwt } = useSelector((s: RootState) => s.user);
+  const items = useSelector((s: RootState) => s.cart.items);
 
   useEffect(() => {
     if (jwt) {
@@ -63,6 +64,7 @@ export function LayoutMenu() {
             <img className={styles["menu-icon"]} src={cartIcon} alt="Корзина" />{" "}
             Корзина
           </NavLink>
+          {items.reduce((acc, item) => (acc += item.count), 0)}
         </div>
         <Button className={styles["exit"]} onClick={logOut}>
           <img src={exitIcon} alt="Выход" /> Выход
