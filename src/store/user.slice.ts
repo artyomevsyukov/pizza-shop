@@ -16,12 +16,14 @@ export interface UserState {
   jwt: string | null;
   profile?: Profile | null;
   loginErrorMessage?: string | undefined;
+  loginLoading: boolean;
   registerErrorMessage?: string | undefined;
 }
 
 const initialState: UserState = {
   jwt: loadState<UserPersistentState>(JWT_PERSISTENT_STATE)?.jwt ?? null,
-  profile: null
+  profile: null,
+  loginLoading: false
 };
 
 export const login = createAsyncThunk(
@@ -106,13 +108,19 @@ export const userSlice = createSlice({
     }
   },
   extraReducers: builder => {
+    builder.addCase(login.pending, state => {
+      state.loginLoading = true;
+      state.loginErrorMessage = undefined;
+    });
     builder.addCase(login.fulfilled, (state, action) => {
+      state.loginLoading = false;
       if (!action.payload) {
         return;
       }
       state.jwt = action.payload.access_token;
     });
     builder.addCase(login.rejected, (state, action) => {
+      state.loginLoading = false;
       state.loginErrorMessage = action.error.message;
     });
     builder.addCase(getProfile.fulfilled, (state, action) => {

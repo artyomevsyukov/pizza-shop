@@ -9,6 +9,7 @@ import Input from "../../components/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store/store";
 import { login, userActions } from "../../store/user.slice";
+import { Spinner } from "../../components/Spinner/Spinner";
 
 function Login() {
   const [formData, setFormData] = useState<LoginFormData>({
@@ -17,7 +18,9 @@ function Login() {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { jwt, loginErrorMessage } = useSelector((s: RootState) => s.user);
+  const { jwt, loginErrorMessage, loginLoading } = useSelector(
+    (s: RootState) => s.user
+  );
 
   useEffect(() => {
     if (jwt) {
@@ -82,8 +85,15 @@ function Login() {
             value={formData.password}
           />
         </div>
-        <Button appearance="small" type="submit">
-          Вход
+        <Button appearance="small" type="submit" disabled={loginLoading}>
+          {loginLoading ? (
+            <>
+              <Spinner />
+              Загрузка...
+            </>
+          ) : (
+            "Вход"
+          )}
         </Button>
       </form>
       <div className={styles["links"]}>
