@@ -16,6 +16,7 @@ import Login from "./pages/Login/Login.tsx";
 import { RequireAuth } from "./helpers/RequireAuth.tsx";
 import { Provider } from "react-redux";
 import { store } from "./store/store.ts";
+import { Spinner } from "./components/Spinner/Spinner.tsx";
 
 const Menu = lazy(() => import("./pages/Menu/Menu"));
 
@@ -31,7 +32,13 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: (
-          <Suspense fallback={<>Loading...</>}>
+          <Suspense
+            fallback={
+              <>
+                Loading... <Spinner />
+              </>
+            }
+          >
             <Menu />
           </Suspense>
         )
