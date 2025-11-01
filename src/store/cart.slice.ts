@@ -29,6 +29,15 @@ const cartSlice = createSlice({
         }
         return i;
       });
+    },
+    decrease: (state, action: PayloadAction<number>) => {
+      console.log("remove: ", action.payload);
+    },
+    increase: (state, action: PayloadAction<number>) => {
+      console.log("remove: ", action.payload);
+    },
+    clear: (state, action: PayloadAction<number>) => {
+      console.log("remove: ", action.payload);
     }
   }
 });

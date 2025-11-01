@@ -32,6 +32,7 @@ export function LayoutMenu() {
 
   const displayName = profile?.name || "Ваше имя";
   const displayEmail = profile?.email || "name@ya.ru";
+  const count = items.reduce((acc, item) => (acc += item.count), 0);
 
   return (
     <div className={styles["layout"]}>
@@ -62,9 +63,8 @@ export function LayoutMenu() {
             }
           >
             <img className={styles["menu-icon"]} src={cartIcon} alt="Корзина" />{" "}
-            Корзина
+            Корзина <span className={styles["cart-count"]}>{count}</span>
           </NavLink>
-          {items.reduce((acc, item) => (acc += item.count), 0)}
         </div>
         <Button className={styles["exit"]} onClick={logOut}>
           <img src={exitIcon} alt="Выход" /> Выход
