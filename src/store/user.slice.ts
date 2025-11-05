@@ -82,7 +82,7 @@ export const getProfile = createAsyncThunk(
           Authorization: `Bearer ${jwt}`
         }
       });
-      console.log("userProfile: ", data);
+      // console.log("userProfile: ", data);
 
       return data;
     } catch (error) {

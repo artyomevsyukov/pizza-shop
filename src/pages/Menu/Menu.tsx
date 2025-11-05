@@ -1,4 +1,4 @@
-import stiles from "./Menu.module.css";
+import styles from "./Menu.module.css";
 import Heading from "../../components/Heading/Heading";
 import Search from "../../components/Search/Search";
 import { PREFIX } from "../../helpers/API";
@@ -45,7 +45,7 @@ function Menu() {
 
   return (
     <>
-      <div className={stiles["head"]}>
+      <div className={styles["head"]}>
         <Heading>Menu</Heading>
         <Search
           name="search"
