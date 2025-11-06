@@ -1,4 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import { loadState } from "./storage";
+export const CART_PERSISTENT_STATE = "cartData";
 
 export interface CartItem {
   id: number;
@@ -10,7 +12,7 @@ export interface CartState {
 }
 
 const initialState: CartState = {
-  items: []
+  items: loadState<CartState>(CART_PERSISTENT_STATE)?.items ?? []
 };
 
 const cartSlice = createSlice({
@@ -30,14 +32,7 @@ const cartSlice = createSlice({
         return i;
       });
     },
-    // decrease: (state, action: PayloadAction<number>) => {
-    //   state.items.map(i => {
-    //     if (i.id === action.payload && i.count > 0) {
-    //       i.count -= 1;
-    //     }
-    //     return i;
-    //   });
-    // },
+
     decrease: (state, action: PayloadAction<number>) => {
       const existed = state.items.find(i => i.id === action.payload);
       if (!existed) {
