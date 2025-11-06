@@ -1,3 +1,38 @@
 .header {
   margin-bottom: 40px;
 }
+
+.footer {
+  max-width: 512px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 17px 15px;
+}
+
+.row span {
+  color: var(--sub-color, #9796a1);
+}
+
+.hr {
+  margin: 0;
+  border: 1px solid #f1f2f3;
+}
+
+.text {
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: normal;
+}
+
+.price {
+  color: var(--text-color);
+  font-size: 19px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: normal;
+}

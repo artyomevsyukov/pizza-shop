@@ -14,8 +14,6 @@ store.subscribe(() => {
   const currentJwt = store.getState().user.jwt;
   saveState({ jwt: currentJwt }, JWT_PERSISTENT_STATE);
 
-  // const currentCart = store.getState().cart.items;
-  // saveState({ items: currentCart }, CART_PERSISTENT_STATE);
   const currentCart = store.getState().cart;
   saveState(currentCart, CART_PERSISTENT_STATE);
 });

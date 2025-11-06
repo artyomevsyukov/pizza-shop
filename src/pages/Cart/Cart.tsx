@@ -8,6 +8,8 @@ import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { PREFIX } from "../../helpers/API";
 
+const DELIVERY = 169;
+
 export function Cart() {
   const [cartProduct, setCartProduct] = useState<Product[]>([]);
   const items = useSelector((s: RootState) => s.cart.items);
@@ -26,6 +28,12 @@ export function Cart() {
     loadAllProduct();
   }, [items, loadAllProduct]);
 
+  const total = items.reduce((acc, item) => {
+    const product = cartProduct.find(p => p.id === item.id);
+    if (!product) return acc;
+    return acc + item.count * product.price;
+  }, 0);
+
   return (
     <>
       <Heading className={styles["header"]}>Корзина</Heading>
@@ -37,6 +45,32 @@ export function Cart() {
         }
         return <CartItem key={i.id} count={i.count} {...product} />;
       })}
+      {total > 0 ? (
+        <div className={styles["footer"]}>
+          <div className={styles["row"]}>
+            <div className={styles["text"]}>Итог</div>
+            <div className={styles["price"]}>
+              {total}&nbsp;<span>₽</span>
+            </div>
+          </div>
+          <hr className={styles["hr"]} />
+          <div className={styles["row"]}>
+            <div className={styles["text"]}>Доставка </div>
+            <div className={styles["price"]}>
+              {DELIVERY}&nbsp;<span>₽</span>
+            </div>
+          </div>
+          <hr className={styles["hr"]} />
+          <div className={styles["row"]}>
+            <div className={styles["text"]}>Итог ({items.length})</div>
+            <div className={styles["price"]}>
+              {total + DELIVERY}&nbsp;<span>₽</span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }

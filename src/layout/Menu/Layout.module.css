@@ -69,6 +69,8 @@
 .content {
   padding: 40px 60px;
   width: 100%;
+  /* min-width: 512px;
+  margin: 0 auto; */
 }
 
 .cart-count {
