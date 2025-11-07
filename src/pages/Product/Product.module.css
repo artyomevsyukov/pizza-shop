@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  margin-bottom: 34px;
+}
+
+.card {
+  display: flex;
+  gap: 48px;
+}
+
+.img {
+  width: 323px;
+  height: 248px;
+  border-radius: 18px;
+  object-fit: cover;
+}
+
+.right {
+}
+
+.right-wrapper {
+  min-width: 200px;
+}
