@@ -36,3 +36,9 @@
   font-style: normal;
   line-height: normal;
 }
+
+.total-count {
+  color: #bebebe;
+  font-size: 14px;
+  font-weight: 300;
+}

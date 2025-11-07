@@ -10,41 +10,68 @@ import { PREFIX } from "../../helpers/API";
 
 const DELIVERY = 169;
 
+interface CartProduct extends Product {
+  count: number;
+}
+
 export function Cart() {
-  const [cartProduct, setCartProduct] = useState<Product[]>([]);
+  const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
   const items = useSelector((s: RootState) => s.cart.items);
 
-  const getItem = useCallback(async (id: number) => {
-    const { data } = await axios.get<Product>(`${PREFIX}/products/${id}`);
-    return data;
-  }, []);
+  // const getItem = useCallback(async (id: number) => {
+  //   const { data } = await axios.get<Product>(`${PREFIX}/products/${id}`);
+  //   return data;
+  // }, []);
 
-  const loadAllProduct = useCallback(async () => {
-    const res = await Promise.all(items.map(i => getItem(i.id)));
-    setCartProduct(res);
-  }, [items, getItem]);
+  // const loadAllProduct = useCallback(async () => {
+  //   const res = await Promise.all(items.map(i => getItem(i.id)));
+  //   setCartProduct(res);
+  // }, [items, getItem]);
+
+  const loadAllProducts = useCallback(async () => {
+    const products = await Promise.all(
+      items.map(async item => {
+        const { data } = await axios.get<Product>(
+          `${PREFIX}/products/${item.id}`
+        );
+        return {
+          ...data,
+          count: item.count
+        };
+      })
+    );
+    setCartProducts(products);
+  }, [items]);
 
   useEffect(() => {
-    loadAllProduct();
-  }, [items, loadAllProduct]);
+    loadAllProducts();
+  }, [items, loadAllProducts]);
 
-  const total = items.reduce((acc, item) => {
-    const product = cartProduct.find(p => p.id === item.id);
-    if (!product) return acc;
-    return acc + item.count * product.price;
-  }, 0);
+  // const total = items.reduce((acc, item) => {
+  //   const product = cartProduct.find(p => p.id === item.id);
+  //   if (!product) return acc;
+  //   return acc + item.count * product.price;
+  // }, 0);
+
+  const total = cartProducts.reduce(
+    (acc, product) => acc + product.count * product.price,
+    0
+  );
 
   return (
     <>
       <Heading className={styles["header"]}>Корзина</Heading>
 
-      {items.map(i => {
-        const product = cartProduct.find(p => p.id === i.id);
+      {/* {items.map(i => {
+        const product = cartProducts.find(p => p.id === i.id);
         if (!product) {
           return;
         }
-        return <CartItem key={i.id} count={i.count} {...product} />;
-      })}
+        return <CartItem key={i.id}  count={i.count}  {...product} />;
+      })} */}
+      {cartProducts.map(product => (
+        <CartItem key={product.id} {...product} />
+      ))}
       {total > 0 ? (
         <div className={styles["footer"]}>
           <div className={styles["row"]}>
@@ -62,7 +89,9 @@ export function Cart() {
           </div>
           <hr className={styles["hr"]} />
           <div className={styles["row"]}>
-            <div className={styles["text"]}>Итог ({items.length})</div>
+            <div className={styles["text"]}>
+              Итог <span className="total-count">({items.length})</span>
+            </div>
             <div className={styles["price"]}>
               {total + DELIVERY}&nbsp;<span>₽</span>
             </div>
