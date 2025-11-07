@@ -7,6 +7,8 @@ import type { Product } from "../../interfaces/product.interface";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { PREFIX } from "../../helpers/API";
+import Button from "../../components/Button/Button";
+import { useNavigate } from "react-router-dom";
 
 const DELIVERY = 169;
 
@@ -17,6 +19,8 @@ interface CartProduct extends Product {
 export function Cart() {
   const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
   const items = useSelector((s: RootState) => s.cart.items);
+  const jwt = useSelector((s: RootState) => s.user.jwt);
+  const navigate = useNavigate();
 
   // const getItem = useCallback(async (id: number) => {
   //   const { data } = await axios.get<Product>(`${PREFIX}/products/${id}`);
@@ -57,6 +61,19 @@ export function Cart() {
     (acc, product) => acc + product.count * product.price,
     0
   );
+
+  const checkout = async () => {
+    await axios.post(
+      `${PREFIX}/order`,
+      { products: items },
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
+      }
+    );
+    navigate("/success");
+  };
 
   return (
     <>
@@ -100,6 +117,11 @@ export function Cart() {
       ) : (
         ""
       )}
+      <div className={styles["checkout"]}>
+        <Button appearance="big" onClick={checkout}>
+          Оформить
+        </Button>
+      </div>
     </>
   );
 }

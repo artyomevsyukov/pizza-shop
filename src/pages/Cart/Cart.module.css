@@ -4,6 +4,7 @@
 
 .footer {
   max-width: 512px;
+  margin-bottom: 70px;
 }
 
 .row {
@@ -41,4 +42,11 @@
   color: #bebebe;
   font-size: 14px;
   font-weight: 300;
+}
+
+.checkout {
+  max-width: 512px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

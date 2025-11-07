@@ -17,6 +17,7 @@ import { RequireAuth } from "./helpers/RequireAuth.tsx";
 import { Provider } from "react-redux";
 import { store } from "./store/store.ts";
 import { Spinner } from "./components/Spinner/Spinner.tsx";
+import Success from "./pages/Success/Success.tsx";
 
 const Menu = lazy(() => import("./pages/Menu/Menu"));
 
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/cart",
         element: <Cart />
+      },
+      {
+        path: "/success",
+        element: <Success />
       },
       {
         path: "/product/:id",
