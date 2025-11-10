@@ -90,38 +90,40 @@ export function Cart() {
         <CartItem key={product.id} {...product} />
       ))}
       {total > 0 ? (
-        <div className={styles["footer"]}>
-          <div className={styles["row"]}>
-            <div className={styles["text"]}>Итог</div>
-            <div className={styles["price"]}>
-              {total}&nbsp;<span>₽</span>
+        <>
+          <div className={styles["footer"]}>
+            <div className={styles["row"]}>
+              <div className={styles["text"]}>Итог</div>
+              <div className={styles["price"]}>
+                {total}&nbsp;<span>₽</span>
+              </div>
+            </div>
+            <hr className={styles["hr"]} />
+            <div className={styles["row"]}>
+              <div className={styles["text"]}>Доставка </div>
+              <div className={styles["price"]}>
+                {DELIVERY}&nbsp;<span>₽</span>
+              </div>
+            </div>
+            <hr className={styles["hr"]} />
+            <div className={styles["row"]}>
+              <div className={styles["text"]}>
+                Итог <span className="total-count">({items.length})</span>
+              </div>
+              <div className={styles["price"]}>
+                {total + DELIVERY}&nbsp;<span>₽</span>
+              </div>
             </div>
           </div>
-          <hr className={styles["hr"]} />
-          <div className={styles["row"]}>
-            <div className={styles["text"]}>Доставка </div>
-            <div className={styles["price"]}>
-              {DELIVERY}&nbsp;<span>₽</span>
-            </div>
+          <div className={styles["checkout"]}>
+            <Button appearance="big" onClick={checkout}>
+              Оформить
+            </Button>
           </div>
-          <hr className={styles["hr"]} />
-          <div className={styles["row"]}>
-            <div className={styles["text"]}>
-              Итог <span className="total-count">({items.length})</span>
-            </div>
-            <div className={styles["price"]}>
-              {total + DELIVERY}&nbsp;<span>₽</span>
-            </div>
-          </div>
-        </div>
+        </>
       ) : (
-        ""
+        "В корзине ничего нет"
       )}
-      <div className={styles["checkout"]}>
-        <Button appearance="big" onClick={checkout}>
-          Оформить
-        </Button>
-      </div>
     </>
   );
 }
